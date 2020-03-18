@@ -34,7 +34,11 @@ void solve(int preL, int inL, int postL, int n)
 ```cpp
 struct node {
     int data;
-    node* lchild, rchild;
+    node* lchild, *rchild;
+    node() {
+        this->lchild = NULL;
+        this->rchild = NULL;
+    }
 };
 
 node* create(int postL, int postR, int inL, int inR) {
