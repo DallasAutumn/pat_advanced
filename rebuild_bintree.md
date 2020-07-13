@@ -30,7 +30,21 @@ void solve(int preL, int inL, int postL, int n)
 
 根据二叉树三种遍历的规律：先序序列的根结点出现在区间左端点preL，后序序列的根结点出现在区间右端点$postR=postL+n-1$。接下来，只需要根据中序序列去寻找根结点，即可划分左右子树。然后分别对左右子树进行递归即可。
 
-## 2. 后序与中序序列重建这棵树
+## 2.后序中序求先序（无需建树）
+```cpp
+void pre(int root, int start, int end)
+{
+    if (start > end) return;
+    int i = start;
+    while (i < end && in[i] != post[root]) i++;
+    printf("%d ", post[root]);
+    int numR = end - i;
+    pre(root - numR - 1, start, i - 1);
+    pre(root - 1, i + 1, end);
+}
+```
+
+## 3. 后序与中序序列重建这棵树
 ```cpp
 struct node {
     int data;
@@ -56,7 +70,7 @@ node* create(int postL, int postR, int inL, int inR) {
 ```
 传参跟1中有所不同，但本质是一样的，都是通过左端点和偏移量确定所要寻找的数组下标，只是这里换成了借助右端点。代码实现和递归的原理一模一样。
 
-## 3. 先序与中序序列重建这棵树
+## 4. 先序与中序序列重建这棵树
 ```cpp
 node* create(int preL, int preR, int inL, int inR) {
     if(preL > preR) return NULL;
@@ -74,7 +88,7 @@ node* create(int preL, int preR, int inL, int inR) {
 ```
 与2的实现大同小异。
 
-## 4. 先序与后序序列转中序（可能不唯一）
+## 5. 先序与后序序列转中序（可能不唯一）
 由于没有中序序列的支持，这时可能会出现不唯一情况：即无法确定某个结点是左孩子还是右孩子。
 ```cpp
 void getIn(int preL, int preR, int postL, int postR) {
@@ -96,7 +110,7 @@ void getIn(int preL, int preR, int postL, int postR) {
 }
 ```
 
-## 5. 总结
+## 6. 总结
 - 时刻牢记三种遍历顺序：
   > 先序：根 -> 左子树 -> 右子树，中序：左子树 -> 根 -> 右子树，后序：左子树 -> 右子树 -> 根
 - 先序（后序）序列用于确定根结点，然后拿着根结点去中序序列里找左右子树。
