@@ -8,8 +8,9 @@ void dijkstra(int s)
     fill(d, d + MAXV, INF);
     d[s] = 0;
 
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++) // 循环n次，每次加入一个点
     {
+        // 先找距离最短的点
         int u = -1, MIN = INF;
         for(int j = 0; j < n; j++)
         {
@@ -19,11 +20,13 @@ void dijkstra(int s)
                 MIN = d[j];
             }
         }
-    }
 
-    if(u == -1) return;
+    if(u == -1) 
+        return;
+
     vis[u] = true;
 
+    // 以当前找到的u为中转，进行松弛操作
     for(int v = 0; v < n; v++)
     {
         if(!vis[v] && G[u][v] != INF)
